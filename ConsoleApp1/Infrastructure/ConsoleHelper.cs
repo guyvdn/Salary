@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PredictSalary
+namespace PredictSalary.Infrastructure
 {
     public static class ConsoleHelper
     {
         public static T PickOption<T>(IEnumerable<T> options)
         {
             var optionsArray = options.ToArray();
-            
 
             for (var i = 0; i < optionsArray.Length; i++)
             {
@@ -17,12 +16,12 @@ namespace PredictSalary
                 Console.WriteLine($"{i + 1}. {option}");
             }
 
-            var selectedOption = EnterNumber("Make your choice:", optionsArray.Length);
+            var selectedOption = GetNumber("Make your choice:", optionsArray.Length);
 
             return optionsArray[selectedOption - 1];
         }
 
-        public static int EnterNumber(string question, int maxValue = int.MaxValue)
+        public static int GetNumber(string question, int maxValue = int.MaxValue)
         {
             var selectedOption = -1;
 

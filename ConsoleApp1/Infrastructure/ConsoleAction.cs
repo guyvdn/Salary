@@ -1,17 +1,24 @@
 ﻿using System;
 
-namespace PredictSalary
+namespace PredictSalary.Infrastructure
 {
     public class ConsoleAction
     {
-        public Action Action { get; }
+        private readonly Action action;
         private readonly string displayName;
 
         public ConsoleAction(string displayName, Action action)
         {
-            Action = action;
+            this.action = action;
             this.displayName = displayName;
         }
+
+        public void Execute()
+        {
+            action.Invoke();
+            Console.WriteLine();
+            MainMenu.Show();
+        } 
 
         public override string ToString() => displayName;
     }
