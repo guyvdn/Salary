@@ -16,6 +16,7 @@ namespace PredictSalary
             var options = new List<ConsoleAction>
             {
                 new ConsoleAction("Generate Data", GenerateData.Execute),
+                new ConsoleAction("Train Model", MachineLearning.Learn),
                 new ConsoleAction("Get Salary Prediction", GetSalaryPrediction.Execute)
             };
 

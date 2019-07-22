@@ -18,6 +18,9 @@ namespace PredictSalary.Commands
 
             Console.WriteLine(employee);
             Console.WriteLine($"BaseSalary: {employee.BaseSalary} - MinimumSalary: {employee.MinimumSalary} - MaximumSalary: {employee.MaximumSalary}");
+
+            var prediction = MachineLearning.GetPrediction(employee);
+            Console.WriteLine($"Predicted Salary: {prediction}");
         }
     }
 }
