@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PredictSalary.Infrastructure
+namespace Salary.Infrastructure
 {
     public class ConsoleAction
     {
@@ -15,8 +15,13 @@ namespace PredictSalary.Infrastructure
 
         public void Execute()
         {
+            Console.Clear();
             action.Invoke();
-            Console.WriteLine();
+
+            Console.WriteLine("");
+            ConsoleHelper.Write("Press any key to continue...", ConsoleColor.Cyan);
+            Console.ReadKey();
+
             MainMenu.Show();
         } 
 

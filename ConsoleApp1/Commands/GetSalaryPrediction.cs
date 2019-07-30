@@ -1,26 +1,29 @@
 ﻿using System;
-using PredictSalary.Domain;
-using PredictSalary.Infrastructure;
+using Salary.Domain;
+using Salary.Infrastructure;
+using Salary.Services;
+using Salary.Services.MachineLearning;
 
-namespace PredictSalary.Commands
+namespace Salary.Commands
 {
-    public class GetSalaryPrediction
+    public static class GetSalaryPrediction
     {
         public static void Execute()
         {
-            Console.WriteLine("Get Salary Prediction");
-            Console.WriteLine();
+            Print.Header("Get Salary Prediction");
+
+            if (!Validate.DataIsLoaded() || !Validate.ModelIsTrained()) return;
 
             var age = ConsoleHelper.GetNumber("Enter Age of Employee:");
+
+            ConsoleHelper.WriteLine("Select ExperienceLevel of Employee", ConsoleColor.Cyan);
             var experienceLevel = ConsoleHelper.PickOption(ExperienceLevel.Values);
 
-            var employee = new Employee(age, experienceLevel, -1);
-
-            Console.WriteLine(employee);
-            Console.WriteLine($"BaseSalary: {employee.BaseSalary} - MinimumSalary: {employee.MinimumSalary} - MaximumSalary: {employee.MaximumSalary}");
-
-            var prediction = MachineLearning.GetPrediction(employee);
-            Console.WriteLine($"Predicted Salary: {prediction}");
+            var employee = new Employee(age, experienceLevel, 0);
+            Print.Employee(employee);
+            
+            var prediction = SalaryPrediction.GetPrediction(employee);
+            Print.PredictedSalary(prediction);
         }
     }
 }

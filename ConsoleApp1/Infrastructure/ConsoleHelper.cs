@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PredictSalary.Infrastructure
+namespace Salary.Infrastructure
 {
     public static class ConsoleHelper
     {
@@ -13,7 +13,7 @@ namespace PredictSalary.Infrastructure
             for (var i = 0; i < optionsArray.Length; i++)
             {
                 var option = optionsArray[i];
-                Console.WriteLine($"{i + 1}. {option}");
+                WriteLine($"{i + 1}. {option}", ConsoleColor.Yellow);
             }
 
             var selectedOption = GetNumber("Make your choice:", optionsArray.Length);
@@ -28,11 +28,60 @@ namespace PredictSalary.Infrastructure
             while (selectedOption < 1 || selectedOption > maxValue)
             {
                 Console.WriteLine();
-                Console.Write(question + " ");
+                Write(question + " ", ConsoleColor.Cyan);
                 int.TryParse(Console.ReadLine(), out selectedOption);
             }
 
             return selectedOption;
+        }
+
+        public static bool GetYesNo(string question)
+        {
+            Write($"{question} (y/n) ", ConsoleColor.Cyan);
+
+            while (true)
+            {
+                var input = Console.ReadKey().KeyChar;
+
+                if (input == 'y' || input == 'Y')
+                    return true;
+
+                if (input == 'n' || input == 'N')
+                    return false;
+
+                Console.Write("\b \b");
+            }
+        }
+
+        public static void Write(string value, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(value);
+            Console.ResetColor();
+        }
+
+        public static void WriteLine(object value, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(value);
+            Console.ResetColor();
+        }
+
+        public static void WithColor(ConsoleColor color, Action action)
+        {
+            Console.ForegroundColor = color;
+            action.Invoke();
+            Console.ResetColor();
+        }
+
+        public static void WriteLines(string[] lines)
+        {
+            Array.ForEach(lines, Console.WriteLine);
+        }
+
+        public static void WriteLines(string[] lines, ConsoleColor color)
+        {
+            Array.ForEach(lines, line => WriteLine(line, color));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PredictSalary.Domain
+namespace Salary.Domain
 {
     public class ExperienceLevel
     {

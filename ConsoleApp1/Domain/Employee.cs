@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PredictSalary.Domain
+namespace Salary.Domain
 {
     public class Employee
     {
@@ -15,13 +15,10 @@ namespace PredictSalary.Domain
         public Employee(int age, ExperienceLevel experienceLevel)
         {
             Age = age;
-            //ExperienceLevel = experienceLevel;
-            ExperienceLevel = ExperienceLevel.Medior;
+            ExperienceLevel = experienceLevel;
             BaseSalary = (int)(Age * 100 * ExperienceLevel.SalaryMultiplier);
-            //MinimumSalary = (int)(BaseSalary * 0.98);
-            //MaximumSalary = (int)(BaseSalary * 1.02);
-            MinimumSalary = BaseSalary;
-            MaximumSalary = BaseSalary;
+            MinimumSalary = (int)(BaseSalary * 0.98);
+            MaximumSalary = (int)(BaseSalary * 1.02);
             Salary = Random.Next(MinimumSalary, MaximumSalary);
         }
 
@@ -31,7 +28,5 @@ namespace PredictSalary.Domain
         public int MinimumSalary { get; }
         public int MaximumSalary { get; }
         public int Salary { get; }
-
-        public override string ToString() => $"Age: {Age} - ExperienceLevel: {ExperienceLevel} - Salary: {Salary:N0}";
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
-using PredictSalary.Domain;
-using PredictSalary.Infrastructure;
+using System.Linq;
+using Salary.Domain;
+using Salary.Infrastructure;
+using Salary.Services;
 
-namespace PredictSalary.Commands
+namespace Salary.Commands
 {
     public static class GenerateData
     {
@@ -10,26 +12,27 @@ namespace PredictSalary.Commands
 
         public static void Execute()
         {
-            var numberOfEmployeesToGenerate = ConsoleHelper.GetNumber("How many employees do you want to generate?", 1_000_000);
-
-            Console.WriteLine();
-            Console.WriteLine("Generating Employees");
+            Print.Header("Generate Data");
 
             Program.Data.Clear();
 
-            for (var i = 0; i < numberOfEmployeesToGenerate; i++)
+            var numberOfEmployeesToGenerate = ConsoleHelper.GetNumber("How many employees do you want to generate?", 1_000_000);
+
+            Console.WriteLine();
+            
+            ConsoleSpinner.Execute($"Generating {numberOfEmployeesToGenerate:N0} Employees" ,() =>
             {
-                var age = Random.Next(20, 50);
-                var experienceLevel = ExperienceLevel.Values[Random.Next(0, 3)];
-                var employee = new Employee(age, experienceLevel);
-
-                Program.Data.Add(employee);
-
-                if (i < 10)
+                for (var i = 0; i < numberOfEmployeesToGenerate; i++)
                 {
-                    Console.WriteLine(employee);
+                    var age = Random.Next(20, 60);
+                    var experienceLevel = ExperienceLevel.Values[Random.Next(0, 3)];
+                    var employee = new Employee(age, experienceLevel);
+
+                    Program.Data.Add(employee);
                 }
-            }
+            });
+            
+            Print.Employees(Program.Data.Take(10));
         }
     }
 }

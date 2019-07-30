@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
-using PredictSalary.Domain;
+using Microsoft.ML;
+using Salary.Domain;
 
-namespace PredictSalary
+namespace Salary
 {
     class Program
     {
-        public static readonly IList<Employee> Data = new List<Employee>();
+        internal static IList<Employee> Data { get; } = new List<Employee>();
+        internal static ITransformer TrainedModel { get; set; }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             MainMenu.Show();
         }

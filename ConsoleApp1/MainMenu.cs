@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using PredictSalary.Commands;
-using PredictSalary.Infrastructure;
+using Salary.Commands;
+using Salary.Infrastructure;
+using Salary.Services;
 
-namespace PredictSalary
+namespace Salary
 {
     public static class MainMenu
     {
         public static void Show()
         {
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine(" What do you want to do?");
-            Console.WriteLine("--------------------------------------------------");
+            Console.Clear();
+            Print.Header("What do you want to do?");
 
             var options = new List<ConsoleAction>
             {
                 new ConsoleAction("Generate Data", GenerateData.Execute),
-                new ConsoleAction("Train Model", MachineLearning.Learn),
-                new ConsoleAction("Get Salary Prediction", GetSalaryPrediction.Execute)
+                new ConsoleAction("Train Model", TrainModel.Execute),
+                new ConsoleAction("Get Salary Prediction", GetSalaryPrediction.Execute),
+                new ConsoleAction("Detect Spike", SpikeDetection.Execute),
+                new ConsoleAction("Exit", ()=> Environment.Exit(0))
             };
 
             ConsoleHelper.PickOption(options).Execute();
