@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salary", "Salary\Salary.csproj", "{B310390E-661B-488A-9897-8526F96E98B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salary.Test", "Salary.Test\Salary.Test.csproj", "{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B310390E-661B-488A-9897-8526F96E98B7} = {B310390E-661B-488A-9897-8526F96E98B7}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{B310390E-661B-488A-9897-8526F96E98B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B310390E-661B-488A-9897-8526F96E98B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B310390E-661B-488A-9897-8526F96E98B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

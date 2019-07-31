@@ -16,11 +16,12 @@ namespace Salary.Commands
 
             Program.Data.Clear();
 
-            var numberOfEmployeesToGenerate = ConsoleHelper.GetNumber("How many employees do you want to generate?", 1_000_000);
+            const int numberOfEmployeesToGenerate = 100_000;
+            //var numberOfEmployeesToGenerate = ConsoleHelper.GetNumber("How many employees do you want to generate?", 1_000_000);
 
             Console.WriteLine();
-            
-            ConsoleSpinner.Execute($"Generating {numberOfEmployeesToGenerate:N0} Employees" ,() =>
+
+            ConsoleSpinner.Execute($"Generating {numberOfEmployeesToGenerate:N0} Employees", () =>
             {
                 for (var i = 0; i < numberOfEmployeesToGenerate; i++)
                 {
@@ -31,7 +32,7 @@ namespace Salary.Commands
                     Program.Data.Add(employee);
                 }
             });
-            
+
             Print.Employees(Program.Data.Take(10));
         }
     }

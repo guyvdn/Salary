@@ -55,11 +55,21 @@ namespace Salary.Services.MachineLearning
             Print.Metrics(metrics);
         }
 
+        private static float GetPrediction(PredictionEngine<EmployeeDto, Prediction> predictionEngine, Employee employee)
+        {
+            return predictionEngine.Predict(new EmployeeDto { Age = employee.Age, Level = employee.ExperienceLevel.ToString() }).Salary;
+        }
+
         public static float GetPrediction(Employee employee)
         {
             var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, Prediction>(Program.TrainedModel);
-            var prediction = predictionEngine.Predict(new EmployeeDto { Age = employee.Age, Level = employee.ExperienceLevel.ToString() });
-            return prediction.Salary;
+            return GetPrediction(predictionEngine, employee);
+        }
+
+        public static IEnumerable<KeyValuePair<Employee, float>> GetPrediction(IEnumerable<Employee> employees)
+        {
+            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, Prediction>(Program.TrainedModel);
+            return employees.Select(e => new KeyValuePair<Employee, float>(e, GetPrediction(predictionEngine, e)));
         }
 
         private static ICollection<EmployeeDto> MapData(IEnumerable<Employee> data)

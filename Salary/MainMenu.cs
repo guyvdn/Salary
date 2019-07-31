@@ -18,6 +18,7 @@ namespace Salary
                 new ConsoleAction("Generate Data", GenerateData.Execute),
                 new ConsoleAction("Train Model", TrainModel.Execute),
                 new ConsoleAction("Get Salary Prediction", GetSalaryPrediction.Execute),
+                new ConsoleAction("Plot chart", GetSalaryPrediction.RegressionChart),
                 new ConsoleAction("Detect Spikes", DetectSpikes.Execute),
                 new ConsoleAction("Exit", ()=> Environment.Exit(0))
             };
