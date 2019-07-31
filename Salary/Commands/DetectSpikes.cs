@@ -7,11 +7,11 @@ using Salary.Services.MachineLearning;
 
 namespace Salary.Commands
 {
-    public static class SpikeDetection
+    public static class DetectSpikes
     {
         public static void Execute()
         {
-            Print.Header("Spike Detection");
+            Print.Header("Detect Spikes");
 
             var age = ConsoleHelper.GetNumber("Enter Age of Employee:");
             var experienceLevel = ConsoleHelper.PickOption(ExperienceLevel.Values);
