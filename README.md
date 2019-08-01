@@ -1,17 +1,14 @@
 # Salary Application
 
-Application to explain some Machine Learning basics with [ML.Net](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) during the [Euricom](https://www.euri.com/) Dev Cruise of September 2019.
-
+Application to explain some Machine Learning basics with [ML.Net](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) during the [Euricom](https://www.euri.com/) Dev Cruise of September 2019.\
 This application covers Prediction and Spike Detection.
 
 ## Models
 
 ### Employee
 
-The main model of the application.
-
-An employee has an Age, ExperienceLevel and Salary.
-
+The main model of the application.\
+An employee has an Age, ExperienceLevel and Salary.\
 Salary is calculated as follows:
 
 ```
@@ -32,30 +29,25 @@ Senior : Salary + 10%
 
 ### Payment
 
-Used to generate payments for Spike detection.
-
+Used to generate payments for Spike detection.\
 Has a Date and an Amount
 
 ### PaymentSpikePrediction
 
-Used to get prediction from MachineLearning service.
-
+Used to get prediction from MachineLearning service.\
 Has Payment fields + IsSpike and PValue
 
 ## Application Menu Options
 
 ### 1. Generate Data
 
-This will generate 100 000 employees.
-
+This will generate 100 000 employees.\
 Will display the first 10 employees to visualize the data structure.
 
 ### 2. Train Model
 
-Will Train and Evaluate the model. First half of genereated employees will be used for training, last half for evaluating.
-
-Displays the first 10 employees after transforming them to display data used for training.
-
+Will Train and Evaluate the model. First half of genereated employees will be used for training, last half for evaluating.\
+Displays the first 10 employees after transforming them to display data used for training.\
 Displays the Metrics after evaluating the data.
 
 ### 3. Plot Regression Chart
@@ -68,10 +60,8 @@ Will ask for the Age and an ExperienceLevel of an Employee and will predict the 
 
 ### 5. Detect Spike
 
-Will ask for the Age and an ExperienceLevel of an Employee and generate 36 payments.
-
-Will then ask for an amount and determines if that amount is a spike or not.
-
+Will ask for the Age and an ExperienceLevel of an Employee and generate 36 payments.\
+Will then ask for an amount and determines if that amount is a spike or not.\
 Will also plot a chart with the payments.
 
 ### 6. Exit
