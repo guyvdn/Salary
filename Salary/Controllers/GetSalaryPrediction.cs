@@ -1,10 +1,10 @@
 ﻿using System;
-using Salary.Domain;
 using Salary.Infrastructure;
+using Salary.MachineLearning;
+using Salary.Models;
 using Salary.Services;
-using Salary.Services.MachineLearning;
 
-namespace Salary.Commands
+namespace Salary.Controllers
 {
     public static class GetSalaryPrediction
     {
@@ -22,7 +22,7 @@ namespace Salary.Commands
             var employee = new Employee(age, experienceLevel, 0);
             Print.Employee(employee);
 
-            var prediction = SalaryPredictionService.GetPrediction(employee);
+            var prediction = SalaryPredictionService.GetPrediction(Program.TrainedModel, employee);
             Print.PredictedSalary(prediction);
         }
     }

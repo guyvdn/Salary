@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.ML.Data;
-using Salary.Domain;
 using Salary.Infrastructure;
-using Salary.Services.MachineLearning;
+using Salary.Models;
 
 namespace Salary.Services
 {
@@ -14,7 +13,7 @@ namespace Salary.Services
             ConsoleHelper.WriteLines(new[]
             {
                 "--------------------------------------------------",
-                $" {value}",
+                $"       {value}",
                 "--------------------------------------------------"
             }, ConsoleColor.Yellow);
         }
@@ -42,7 +41,7 @@ namespace Salary.Services
 
         public static void PredictedSalary(float prediction)
         {
-            ConsoleHelper.WriteLine($"       PredictedSalary:{prediction,10:N2}", ConsoleColor.Magenta);
+            ConsoleHelper.WriteLine($"       PredictedSalary:{prediction,10:N0}", ConsoleColor.Magenta);
             ConsoleHelper.WriteLine("--------------------------------------------------", ConsoleColor.Green);
         }
 
@@ -85,17 +84,15 @@ namespace Salary.Services
             });
         }
 
-        public static void PaymentPredictions(IEnumerable<SpikeDetectionService.SpikePrediction> predictions)
+        public static void PaymentPredictions(List<PaymentSpikePrediction> predictions)
         {
             ConsoleHelper.WriteLine("Results", ConsoleColor.Yellow);
 
             foreach (var prediction in predictions)
             {
-                var p = prediction.Prediction;
-                var line = $"Alert: {p[0]} | Payment: {p[1]:N0} | P-Value: {p[2]:N2}";
-                var isSpike = Math.Abs(p[0] - 1) < 0.001;
+                var line = $"Alert: {prediction.IsSpike} | Payment: {prediction.Amount:N0} | P-Value: {prediction.PValue:N2}";
 
-                ConsoleHelper.WriteLine(line, isSpike ? ConsoleColor.Red : ConsoleColor.Green);
+                ConsoleHelper.WriteLine(line, prediction.IsSpike ? ConsoleColor.Red : ConsoleColor.Green);
             }
         }
     }

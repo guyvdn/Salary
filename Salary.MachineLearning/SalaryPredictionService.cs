@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.ML;
+﻿using Microsoft.ML;
 using Microsoft.ML.Data;
-using Salary.Domain;
+using Salary.Models;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Salary.Services.MachineLearning
+namespace Salary.MachineLearning
 {
     public class SalaryPredictionService
     {
@@ -24,24 +24,27 @@ namespace Salary.Services.MachineLearning
 
         private class SalaryPrediction
         {
-            [ColumnName("Score")]
+            [ColumnName(ScoreColumnName)]
             public float Salary { get; set; }
         }
 
         private static readonly MLContext MlContext = new MLContext(seed: 0);
+        private const string ScoreColumnName = "Score";
+        private const string LabelColumnName = "Label";
+        private const string FeatureColumnName = "Features";
 
         public static ITransformer Train(IEnumerable<Employee> data, out IEnumerable<string> previewData)
         {
             var trainingData = data.Select(employee => new EmployeeDto(employee));
 
-            var dataProcessPipeline = MlContext.Transforms.CopyColumns("Label", nameof(EmployeeDto.Salary))
-                .Append(MlContext.Transforms.Categorical.OneHotEncoding("LevelEncoded", nameof(EmployeeDto.Level)))
-                .Append(MlContext.Transforms.Concatenate("Features", nameof(EmployeeDto.Age), "LevelEncoded"));
+            var dataProcessPipeline = MlContext.Transforms.CopyColumns(LabelColumnName, nameof(EmployeeDto.Salary))
+                .Append(MlContext.Transforms.Categorical.OneHotEncoding($"{nameof(EmployeeDto.Level)}Encoded", nameof(EmployeeDto.Level)))
+                .Append(MlContext.Transforms.Concatenate(FeatureColumnName, nameof(EmployeeDto.Age), $"{nameof(EmployeeDto.Level)}Encoded"));
 
             var trainingDataView = MlContext.Data.LoadFromEnumerable(trainingData);
             previewData = PreviewDataService.GetPreviewData(dataProcessPipeline, trainingDataView);
 
-            var trainer = MlContext.Regression.Trainers.Sdca("Label", "Features");
+            var trainer = MlContext.Regression.Trainers.Sdca(LabelColumnName, FeatureColumnName);
             var trainingPipeline = dataProcessPipeline.Append(trainer);
 
             return trainingPipeline.Fit(trainingDataView);
@@ -52,7 +55,7 @@ namespace Salary.Services.MachineLearning
             var evaluationData = data.Select(employee => new EmployeeDto(employee));
             var validationDataView = MlContext.Data.LoadFromEnumerable(evaluationData);
             var predictions = trainedModel.Transform(validationDataView);
-            return MlContext.Regression.Evaluate(predictions, labelColumnName: "Label", scoreColumnName: "Score");
+            return MlContext.Regression.Evaluate(predictions, labelColumnName: LabelColumnName, scoreColumnName: ScoreColumnName);
         }
 
         private static float GetPrediction(PredictionEngineBase<EmployeeDto, SalaryPrediction> predictionEngine, Employee employee)
@@ -60,15 +63,15 @@ namespace Salary.Services.MachineLearning
             return predictionEngine.Predict(new EmployeeDto(employee)).Salary;
         }
 
-        public static float GetPrediction(Employee employee)
+        public static float GetPrediction(ITransformer trainedModel, Employee employee)
         {
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(Program.TrainedModel);
+            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(trainedModel);
             return GetPrediction(predictionEngine, employee);
         }
 
-        public static IEnumerable<KeyValuePair<Employee, float>> GetPrediction(IEnumerable<Employee> employees)
+        public static IEnumerable<KeyValuePair<Employee, float>> GetPrediction(ITransformer trainedModel, IEnumerable<Employee> employees)
         {
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(Program.TrainedModel);
+            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(trainedModel);
             return employees.Select(e => new KeyValuePair<Employee, float>(e, GetPrediction(predictionEngine, e)));
         }
     }

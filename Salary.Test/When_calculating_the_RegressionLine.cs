@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using NUnit.Framework;
-using Salary.Services;
+﻿using NUnit.Framework;
+using Salary.MachineLearning;
 using Shouldly;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Salary.Test
 {
@@ -15,7 +15,7 @@ namespace Salary.Test
         {
             var points = new List<(float x, float y)> { (1, 2), (2, 1), (4, 3) };
 
-            Calculate.RegressionLine(points, 0, 7, out var y1, out var y2);
+            StatisticsService.CalculateRegressionLine(points, 0, 7, out var y1, out var y2);
 
 
             y1.ShouldBe(1, .0001);
@@ -27,7 +27,7 @@ namespace Salary.Test
         {
             var points = new List<(float x, float y)> { (-2, -3), (-1, -1), (1, 2), (4, 3) };
 
-            Calculate.RegressionLine(points, -10, 32, out var y1, out var y2);
+            StatisticsService.CalculateRegressionLine(points, -10, 32, out var y1, out var y2);
 
             // y = 41x/42 - 5/21
             y1.ShouldBe(-10, .0001);

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Salary.Domain;
 using Salary.Infrastructure;
+using Salary.Models;
 using Salary.Services;
 
-namespace Salary.Commands
+namespace Salary.Controllers
 {
     public static class GenerateData
     {

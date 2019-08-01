@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salary.Test", "Salary.Test\
 		{B310390E-661B-488A-9897-8526F96E98B7} = {B310390E-661B-488A-9897-8526F96E98B7}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salary.Models", "Salary.Models\Salary.Models.csproj", "{B9CD41B8-8437-425E-9528-F21ECF396A10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salary.MachineLearning", "Salary.MachineLearning\Salary.MachineLearning.csproj", "{A73809F4-4B88-42D4-8B48-743F6629754A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,14 @@ Global
 		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4070F0F1-415B-4E57-8B7E-31D0EAF61DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9CD41B8-8437-425E-9528-F21ECF396A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9CD41B8-8437-425E-9528-F21ECF396A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9CD41B8-8437-425E-9528-F21ECF396A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9CD41B8-8437-425E-9528-F21ECF396A10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A73809F4-4B88-42D4-8B48-743F6629754A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73809F4-4B88-42D4-8B48-743F6629754A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A73809F4-4B88-42D4-8B48-743F6629754A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A73809F4-4B88-42D4-8B48-743F6629754A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

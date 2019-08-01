@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Salary.Domain
+namespace Salary.Models
 {
     public class Employee
     {

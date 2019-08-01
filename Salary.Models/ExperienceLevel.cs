@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Salary.Domain
+namespace Salary.Models
 {
     public class ExperienceLevel
     {
@@ -8,9 +8,9 @@ namespace Salary.Domain
         public double SalaryMultiplier { get; }
         public static List<ExperienceLevel> Values { get; } = new List<ExperienceLevel>();
 
-        public static ExperienceLevel Junior = new ExperienceLevel("Junior", 0.95);
+        public static ExperienceLevel Junior = new ExperienceLevel("Junior", 0.90);
         public static ExperienceLevel Medior = new ExperienceLevel("Medior", 1);
-        public static ExperienceLevel Senior = new ExperienceLevel("Senior", 1.05);
+        public static ExperienceLevel Senior = new ExperienceLevel("Senior", 1.10);
 
         private ExperienceLevel(string displayName, double salaryMultiplier)
         {

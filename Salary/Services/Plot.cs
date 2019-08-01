@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using PLplot;
-using Salary.Domain;
-using Salary.Services.MachineLearning;
+using Salary.MachineLearning;
+using Salary.Models;
 
 namespace Salary.Services
 {
@@ -50,34 +50,14 @@ namespace Salary.Services
 
                 var points = predictions.Select(p => ((float)p.Key.Salary, p.Value)).ToList();
 
-                Calculate.RegressionLine(points, minValue, maxValue, out var y1, out var y2);
+                StatisticsService.CalculateRegressionLine(points, minValue, maxValue, out var y1, out var y2);
 
                 pl.col0(Red);
                 pl.line(new double[] { minValue, maxValue }, new double[] { y1, y2 });
             });
         }
 
-        public static void PaymentChart(IList<float> payments, string fileName)
-        {
-            const int xMin = 0;
-            var xMax = payments.Count;
-            var yMin = payments.Min() - 200;
-            var yMax = payments.Max() + 200;
-
-            PlotToFile(fileName, pl =>
-            {
-                pl.env(xMin, xMax, yMin, yMax, AxesScale.Independent, AxisBox.BoxTicksLabelsAxes);
-                pl.lab("Time", "Amount", "Payments overview");
-                pl.col0(Blue);
-
-                for (var i = 0; i < payments.Count - 1; i++)
-                {
-                    pl.line(new double[] { i, i + 1 }, new double[] { payments[i], payments[i + 1] });
-                }
-            });
-        }
-
-        public static void PaymentChart(List<SpikeDetectionService.SpikePrediction> payments, string fileName)
+        public static void PaymentChart(List<PaymentSpikePrediction> payments, string fileName)
         {
             const int xMin = 0;
             var xMax = payments.Count;
@@ -92,7 +72,7 @@ namespace Salary.Services
                 for (var i = 0; i < payments.Count - 1; i++)
                 {
                     pl.col0(payments[i + 1].IsSpike ? Red : Blue);
-                    pl.line(new double[] { i, i + 1 }, new[] { payments[i].Amount, payments[i + 1].Amount });
+                    pl.line(new double[] { i, i + 1 }, new double[] { payments[i].Amount, payments[i + 1].Amount });
                 }
             });
         }

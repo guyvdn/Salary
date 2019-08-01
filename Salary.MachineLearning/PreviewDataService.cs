@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.ML;
+﻿using Microsoft.ML;
 using Microsoft.ML.Data;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Salary.Services.MachineLearning
+namespace Salary.MachineLearning
 {
     public static class PreviewDataService
     {
@@ -22,7 +22,7 @@ namespace Salary.Services.MachineLearning
                     sparseVectorData.Add(column.Name, transformedData.GetColumn<float[]>(column).Take(maxRows).ToList());
                 }
             }
-            
+
             string SparseVector(IEnumerable<float> vector)
             {
                 return "[" + string.Join(",", vector) + "]";
@@ -36,10 +36,12 @@ namespace Salary.Services.MachineLearning
             for (var i = 0; i < previewData.Length; i++)
             {
                 var data = new List<string>();
-                foreach (var (key, value) in previewData[i].Values)
+
+                foreach (var pair in previewData[i].Values)
                 {
-                    data.Add($"{key}: {GetValue(key, value, i)}");
+                    data.Add($"{pair.Key}: {GetValue(pair.Key, pair.Value, i)}");
                 }
+
                 yield return (string.Join(" | ", data));
             }
         }

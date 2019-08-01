@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.ML;
-using Salary.Domain;
+using Salary.Models;
 
 namespace Salary
 {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Salary.Domain;
 using Salary.Infrastructure;
+using Salary.MachineLearning;
+using Salary.Models;
 using Salary.Services;
-using Salary.Services.MachineLearning;
 
-namespace Salary.Commands
+namespace Salary.Controllers
 {
     public static class TrainModel
     {

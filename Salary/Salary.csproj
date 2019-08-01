@@ -6,9 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML" Version="1.2.0" />
-    <PackageReference Include="Microsoft.ML.TimeSeries" Version="1.2.0" />
     <PackageReference Include="PLplot" Version="5.13.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Salary.MachineLearning\Salary.MachineLearning.csproj" />
+    <ProjectReference Include="..\Salary.Models\Salary.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Salary.MachineLearning;
 using Salary.Services;
-using Salary.Services.MachineLearning;
 
-namespace Salary.Commands
+namespace Salary.Controllers
 {
     public static class PlotRegressionChart
     {
@@ -12,7 +12,7 @@ namespace Salary.Commands
 
             if (!Validate.DataIsLoaded() || !Validate.ModelIsTrained()) return;
 
-            var predictions = SalaryPredictionService.GetPrediction(Program.Data.Take(100)).ToList();
+            var predictions = SalaryPredictionService.GetPrediction(Program.TrainedModel, Program.Data.Take(100)).ToList();
 
             const string fileName = "chart.png";
             Plot.RegressionChart(predictions, fileName);

@@ -13,7 +13,7 @@ namespace Salary.Infrastructure
             for (var i = 0; i < optionsArray.Length; i++)
             {
                 var option = optionsArray[i];
-                WriteLine($"{i + 1}. {option}", ConsoleColor.Yellow);
+                WriteLine($"{i + 1,5}. {option}", ConsoleColor.Yellow);
             }
 
             var selectedOption = GetNumber("Make your choice:", optionsArray.Length);
