@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Microsoft.ML.Data;
 using Salary.Domain;
 using Salary.Infrastructure;
@@ -73,43 +72,20 @@ namespace Salary.Services
                 $"--------------------------------------------------"
             }, ConsoleColor.Green);
         }
-
-        public static void PreviewData(ImmutableArray<DataDebuggerPreview.RowInfo> previewData, List<float[]> experienceLevelData, List<float[]> featuresData)
+        
+        public static void PreviewData(IEnumerable<string> previewData)
         {
-            string SparseVector(IEnumerable<float> vector)
-            {
-                return "[" + string.Join(",", vector) + "]";
-            }
-
-            string GetValue(string key, object value, int i)
-            {
-                switch (key)
-                {
-                    case "LevelEncoded" when value is VBuffer<float>:
-                        return SparseVector(experienceLevelData[i]);
-                    case "Features":
-                        return SparseVector(featuresData[i]);
-                    default:
-                        return value.ToString();
-                }
-            }
-
             ConsoleHelper.WriteLine("Preview Transformed Data", ConsoleColor.Cyan);
             ConsoleHelper.WithColor(ConsoleColor.Green, () =>
             {
-                for (var i = 0; i < previewData.Length; i++)
+                foreach (var line in previewData)
                 {
-                    var data = new List<string>();
-                    foreach (var (key, value) in previewData[i].Values)
-                    {
-                        data.Add($"{key}: {GetValue(key, value, i)}");
-                    }
-                    Console.WriteLine(string.Join(" | ", data));
+                    Console.WriteLine(line);
                 }
             });
         }
 
-        public static void SpikePredictions(IEnumerable<PaymentValidation.SpikePrediction> predictions)
+        public static void PaymentPredictions(IEnumerable<SpikeDetectionService.SpikePrediction> predictions)
         {
             ConsoleHelper.WriteLine("Results", ConsoleColor.Yellow);
 

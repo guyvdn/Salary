@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using PLplot;
 using Salary.Domain;
+using Salary.Services.MachineLearning;
 
 namespace Salary.Services
 {
     public static class Plot
     {
-        public static void RegressionChart(IList<KeyValuePair<Employee, float>> predictions, string fileName)
-        {
-            const int minValue = 1500;
-            const int maxValue = 6500;
-            const char dot = (char)22;
-            const int red = 4;
-            const int blue = 2;
+        private const char Dot = (char)20;
+        private const int Red = 4;
+        private const int Blue = 2;
 
+        private static void PlotToFile(string fileName, Action<PLStream> action)
+        {
             using (var pl = new PLStream())
             {
                 pl.sdev("pngcairo");
@@ -22,25 +23,83 @@ namespace Salary.Services
                 pl.spal0("cmap0_alternate.pal");
                 pl.init();
 
-                pl.env(minValue, maxValue, minValue, maxValue, AxesScale.Independent, AxisBox.BoxTicksLabelsAxes);
+                action(pl);
 
-                pl.col0(blue);
+                pl.eop();
+            }
+        }
+
+        public static void RegressionChart(IList<KeyValuePair<Employee, float>> predictions, string fileName)
+        {
+            const int minValue = 1500;
+            const int maxValue = 6500;
+
+            PlotToFile(fileName, pl =>
+            {
+                pl.env(minValue, maxValue, minValue, maxValue, AxesScale.Equal, AxisBox.BoxTicksLabelsAxes);
+                pl.lab("Actual", "Predicted", "Distribution of Salary Prediction");
+
+                pl.col0(Blue);
                 foreach (var (employee, prediction) in predictions)
                 {
                     var x = employee.Salary;
                     var y = prediction;
 
-                    pl.poin(new double[] { x }, new double[] { y }, dot);
+                    pl.poin(new double[] { x }, new double[] { y }, Dot);
                 }
-                
+
                 var points = predictions.Select(p => ((float)p.Key.Salary, p.Value)).ToList();
 
                 Calculate.RegressionLine(points, minValue, maxValue, out var y1, out var y2);
 
-                pl.col0(red);
+                pl.col0(Red);
                 pl.line(new double[] { minValue, maxValue }, new double[] { y1, y2 });
-                pl.eop();
-            }
+            });
+        }
+
+        public static void PaymentChart(IList<float> payments, string fileName)
+        {
+            const int xMin = 0;
+            var xMax = payments.Count;
+            var yMin = payments.Min() - 200;
+            var yMax = payments.Max() + 200;
+
+            PlotToFile(fileName, pl =>
+            {
+                pl.env(xMin, xMax, yMin, yMax, AxesScale.Independent, AxisBox.BoxTicksLabelsAxes);
+                pl.lab("Time", "Amount", "Payments overview");
+                pl.col0(Blue);
+
+                for (var i = 0; i < payments.Count - 1; i++)
+                {
+                    pl.line(new double[] { i, i + 1 }, new double[] { payments[i], payments[i + 1] });
+                }
+            });
+        }
+
+        public static void PaymentChart(List<SpikeDetectionService.SpikePrediction> payments, string fileName)
+        {
+            const int xMin = 0;
+            var xMax = payments.Count;
+            var yMin = payments.Min(x => x.Amount) - 200;
+            var yMax = payments.Max(x => x.Amount) + 200;
+
+            PlotToFile(fileName, pl =>
+            {
+                pl.env(xMin, xMax, yMin, yMax, AxesScale.Independent, AxisBox.BoxTicksLabelsAxes);
+                pl.lab("Time", "Amount", "Payments overview");
+
+                for (var i = 0; i < payments.Count - 1; i++)
+                {
+                    pl.col0(payments[i + 1].IsSpike ? Red : Blue);
+                    pl.line(new double[] { i, i + 1 }, new[] { payments[i].Amount, payments[i + 1].Amount });
+                }
+            });
+        }
+
+        public static void ShowImage(string fileName)
+        {
+            new Process { StartInfo = new ProcessStartInfo(@".\" + fileName) { UseShellExecute = true } }.Start();
         }
     }
 }

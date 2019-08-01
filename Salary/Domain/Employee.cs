@@ -6,7 +6,7 @@ namespace Salary.Domain
     {
         private static readonly Random Random = new Random();
 
-        public Employee(int age, ExperienceLevel experienceLevel, int salary) 
+        public Employee(int age, ExperienceLevel experienceLevel, int salary)
             : this(age, experienceLevel)
         {
             Salary = salary;
@@ -17,8 +17,8 @@ namespace Salary.Domain
             Age = age;
             ExperienceLevel = experienceLevel;
             BaseSalary = (int)(Age * 100 * ExperienceLevel.SalaryMultiplier);
-            MinimumSalary = (int)(BaseSalary * 0.98);
-            MaximumSalary = (int)(BaseSalary * 1.02);
+            MinimumSalary = (int)(BaseSalary * 0.90);
+            MaximumSalary = (int)(BaseSalary * 1.10);
             Salary = Random.Next(MinimumSalary, MaximumSalary);
         }
 

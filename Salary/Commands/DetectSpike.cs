@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Salary.Domain;
 using Salary.Infrastructure;
 using Salary.Services;
@@ -7,11 +8,11 @@ using Salary.Services.MachineLearning;
 
 namespace Salary.Commands
 {
-    public static class DetectSpikes
+    public static class DetectSpike
     {
         public static void Execute()
         {
-            Print.Header("Detect Spikes");
+            Print.Header("Detect Spike");
 
             var age = ConsoleHelper.GetNumber("Enter Age of Employee:");
             var experienceLevel = ConsoleHelper.PickOption(ExperienceLevel.Values);
@@ -27,7 +28,7 @@ namespace Salary.Commands
             }
 
             var employee = new Employee(age, experienceLevel);
-            
+
             var continueTest = true;
             while (continueTest)
             {
@@ -35,9 +36,14 @@ namespace Salary.Commands
 
                 var amount = ConsoleHelper.GetNumber("Enter Amount for Spike detection:");
                 var data = new List<Payment>(startData) { new Payment { Date = DateTime.Today, Amount = amount } };
-                
-                PaymentValidation.Validate(data);
-                
+
+                var predictions = SpikeDetectionService.DetectSpikes(data).ToList();
+                Print.PaymentPredictions(predictions);
+
+                const string fileName = "payments.png";
+                Plot.PaymentChart(predictions, fileName);
+                Plot.ShowImage(fileName);
+
                 Console.WriteLine();
                 continueTest = ConsoleHelper.GetYesNo("Try again?");
                 Console.WriteLine();
