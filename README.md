@@ -1,6 +1,6 @@
 # Salary Application
 
-Application to explain some [ML.Net](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) basics during the [Euricom](https://www.euri.com/) Dev Cruise of September 2019.
+Application to explain some Machine Learning basics with [ML.Net](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) during the [Euricom](https://www.euri.com/) Dev Cruise of September 2019.
 
 This application covers Prediction and Spike Detection.
 
