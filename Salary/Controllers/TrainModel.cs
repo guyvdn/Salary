@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Salary.Infrastructure;
 using Salary.MachineLearning;
-using Salary.Models;
 using Salary.Services;
 
 namespace Salary.Controllers
@@ -15,20 +13,19 @@ namespace Salary.Controllers
 
             if (!Validate.DataIsLoaded()) return;
 
-            SplitData(Program.Data, out var trainingData, out var validationData);
-
             IEnumerable<string> previewData = null;
-            Program.TrainedModel = ConsoleSpinner.Execute("Training", () => SalaryPredictionService.Train(trainingData, out previewData));
+
+            Program.TrainedModel = ConsoleSpinner.Execute("Training", () =>
+                SalaryPredictionService.Train(Program.TrainingData, out previewData)
+            );
+
             Print.PreviewTransformedData(previewData);
 
-            var metrics = ConsoleSpinner.Execute("Evaluating", () => SalaryPredictionService.Evaluate(Program.TrainedModel, validationData));
-            Print.Metrics(metrics);
-        }
+            var metrics = ConsoleSpinner.Execute("Evaluating", () =>
+                SalaryPredictionService.Evaluate(Program.TrainedModel, Program.TestData)
+            );
 
-        private static void SplitData(ICollection<Employee> data, out List<Employee> trainingData, out List<Employee> validationData)
-        {
-            trainingData = data.Take(data.Count / 2).ToList();
-            validationData = data.Skip(data.Count / 2).ToList();
+            Print.Metrics(metrics);
         }
     }
 }

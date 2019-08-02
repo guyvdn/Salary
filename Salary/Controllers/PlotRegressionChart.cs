@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Salary.MachineLearning;
-using Salary.Services;
+﻿using Salary.Services;
 
 namespace Salary.Controllers
 {
@@ -10,12 +8,12 @@ namespace Salary.Controllers
         {
             Print.Header("Plot Regression Chart");
 
-            if (!Validate.DataIsLoaded() || !Validate.ModelIsTrained()) return;
-
-            var predictions = SalaryPredictionService.GetPrediction(Program.TrainedModel, Program.Data.Take(100)).ToList();
+            if (!Validate.DataIsLoaded()) return;
 
             const string fileName = "chart.png";
-            Plot.RegressionChart(predictions, fileName);
+
+            Plot.RegressionChart(Program.TrainingData, fileName);
+
             Plot.ShowImage(fileName);
         }
     }

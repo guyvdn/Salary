@@ -58,21 +58,10 @@ namespace Salary.MachineLearning
             return MlContext.Regression.Evaluate(predictions, labelColumnName: LabelColumnName, scoreColumnName: ScoreColumnName);
         }
 
-        private static float GetPrediction(PredictionEngineBase<EmployeeDto, SalaryPrediction> predictionEngine, Employee employee)
-        {
-            return predictionEngine.Predict(new EmployeeDto(employee)).Salary;
-        }
-
         public static float GetPrediction(ITransformer trainedModel, Employee employee)
         {
             var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(trainedModel);
-            return GetPrediction(predictionEngine, employee);
-        }
-
-        public static IEnumerable<KeyValuePair<Employee, float>> GetPrediction(ITransformer trainedModel, IEnumerable<Employee> employees)
-        {
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<EmployeeDto, SalaryPrediction>(trainedModel);
-            return employees.Select(e => new KeyValuePair<Employee, float>(e, GetPrediction(predictionEngine, e)));
+            return predictionEngine.Predict(new EmployeeDto(employee)).Salary;
         }
     }
 }

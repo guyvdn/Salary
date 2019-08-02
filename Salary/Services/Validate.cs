@@ -6,7 +6,7 @@ namespace Salary.Services
     {
         public static bool DataIsLoaded()
         {
-            if (Program.Data.Any())
+            if (Program.TrainingData.Any() && Program.TestData.Any())
                 return true;
 
             Print.Error("No data has been loaded yet");
