@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Salary.Extensions;
 
 namespace Salary.Infrastructure
 {
@@ -74,14 +75,14 @@ namespace Salary.Infrastructure
             Console.ResetColor();
         }
 
-        public static void WriteLines(string[] lines)
+        public static void WriteLines(IEnumerable<string> lines)
         {
-            Array.ForEach(lines, Console.WriteLine);
+            lines.ForEach(Console.WriteLine);
         }
 
-        public static void WriteLines(string[] lines, ConsoleColor color)
+        public static void WriteLines(IEnumerable<string> lines, ConsoleColor color)
         {
-            Array.ForEach(lines, line => WriteLine(line, color));
+            lines.ForEach(line => WriteLine(line, color));
         }
     }
 }

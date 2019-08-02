@@ -33,7 +33,7 @@ namespace Salary.Controllers
                 }
             });
 
-            Print.Employees(Program.Data.Take(10));
+            Print.PreviewGeneratedData(Program.Data.Take(10));
         }
     }
 }

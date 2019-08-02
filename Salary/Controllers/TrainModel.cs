@@ -19,7 +19,7 @@ namespace Salary.Controllers
 
             IEnumerable<string> previewData = null;
             Program.TrainedModel = ConsoleSpinner.Execute("Training", () => SalaryPredictionService.Train(trainingData, out previewData));
-            Print.PreviewData(previewData);
+            Print.PreviewTransformedData(previewData);
 
             var metrics = ConsoleSpinner.Execute("Evaluating", () => SalaryPredictionService.Evaluate(Program.TrainedModel, validationData));
             Print.Metrics(metrics);
